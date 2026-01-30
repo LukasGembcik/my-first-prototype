@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/contexts/auth-context";
 import { Container, Title, Text, Paper, TextInput, PasswordInput, Button, Stack, Box } from "@mantine/core";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,6 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function PublicHomePage() {
   const { user, login, isReady } = useAuth();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const {
     register,
