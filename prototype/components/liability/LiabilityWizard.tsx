@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, type FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Stepper,
@@ -55,7 +55,7 @@ export function LiabilityWizard() {
     },
   });
 
-  const stepFields: (string[])[] = [
+  const stepFields: FieldPath<LiabilityFormData>[][] = [
     ["demandsAndNeeds.whoIsCovered", "demandsAndNeeds.activity", "demandsAndNeeds.sumInsured"],
     [],
     ["applicant.firstName", "applicant.lastName", "applicant.email", "applicant.phone", "applicant.street", "applicant.city", "applicant.zip"],
@@ -64,7 +64,7 @@ export function LiabilityWizard() {
   ];
 
   const nextStep = async () => {
-    const fields = stepFields[active];
+    const fields = stepFields[active] ?? [];
     const ok = fields.length === 0 ? true : await form.trigger(fields);
     if (ok) setActive((a) => Math.min(a + 1, STEPS.length - 1));
   };
