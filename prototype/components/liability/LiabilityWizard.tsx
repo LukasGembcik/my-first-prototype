@@ -55,10 +55,18 @@ export function LiabilityWizard() {
     },
   });
 
-  const nextStep = () => {
-    form.trigger().then((ok) => {
-      if (ok) setActive((a) => Math.min(a + 1, STEPS.length - 1));
-    });
+  const stepFields: (string[])[] = [
+    ["demandsAndNeeds.whoIsCovered", "demandsAndNeeds.activity", "demandsAndNeeds.sumInsured"],
+    [],
+    ["applicant.firstName", "applicant.lastName", "applicant.email", "applicant.phone", "applicant.street", "applicant.city", "applicant.zip"],
+    [],
+    ["documentAccepted"],
+  ];
+
+  const nextStep = async () => {
+    const fields = stepFields[active];
+    const ok = fields.length === 0 ? true : await form.trigger(fields);
+    if (ok) setActive((a) => Math.min(a + 1, STEPS.length - 1));
   };
   const prevStep = () => setActive((a) => Math.max(a - 1, 0));
 
